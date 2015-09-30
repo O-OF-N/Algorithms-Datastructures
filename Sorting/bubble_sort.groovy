@@ -100,4 +100,7 @@ def bubbleSort(int[] input){
     //returns sorted array
     input
 }
+
+
+//Now let us invoke the bubble sort method with an input:
 bubbleSort([2,1,3,100,4,21,88,10,10] as int[])   
