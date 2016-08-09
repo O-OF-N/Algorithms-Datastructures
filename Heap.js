@@ -46,15 +46,18 @@ class Heap {
         array[removePos] = array[replacementPos];
         return array.splice(replacementPos, 1);
     };
-
+    //(n-1/2)
     findParentPos(pos) {
         return Math.floor((pos - 1) / 2);
     };
+    
+    //(2n+1)
     findLeftChildPos(pos) {
         const parentPos = 2 * pos + 1;
         return (this.heap.length > parentPos) ? parentPos : undefined;
     };
 
+    //(2n+2)
     findRightChildPos(pos) {
         const parentPos = 2 * pos + 2;
         return (this.heap.length > parentPos) ? parentPos : undefined;
