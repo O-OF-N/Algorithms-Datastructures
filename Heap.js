@@ -1,5 +1,3 @@
-'use strict';
-
 class Heap {
     constructor() {
         this.heap = [];
@@ -19,6 +17,14 @@ class Heap {
 
     removeElement(element) {
         const elementPos = this.findElementPos(element);
+        this.removeElementFromPos(elementPos);
+    };
+
+    removeMinElement() {
+        this.removeElementFromPos(0);
+    }
+
+    removeElementFromPos(elementPos ) {
         const rightMostChild = (elementPos) ? this.findRightMostChildPos(elementPos) :
             this.findRightMostChildPos(0);
         this.removeAndSwap(this.heap, elementPos, rightMostChild);
@@ -27,13 +33,21 @@ class Heap {
         do {
             let rChild = this.findRightChildPos(currentPos);
             let lChild = this.findLeftChildPos(currentPos);
+
             if (rChild != undefined && lChild != undefined) {
                 childPos = (this.heap[lChild] > this.heap[rChild]) ? rChild : lChild;
+            } else if (lChild != undefined) {
+                childPos = lChild;
+            } else if (rChild != undefined) {
+                childPos = rChild;
+            } else childPos = undefined;
+
+            if (childPos != undefined) {
                 this.swap(this.heap, childPos, currentPos);
                 currentPos = childPos;
-            } else childPos = undefined;
+            }
         } while (childPos != undefined);
-    };
+    }
 
     swap(array, pos1, pos2) {
         let temp = array[pos1];
@@ -46,18 +60,15 @@ class Heap {
         array[removePos] = array[replacementPos];
         return array.splice(replacementPos, 1);
     };
-    //(n-1/2)
+
     findParentPos(pos) {
         return Math.floor((pos - 1) / 2);
     };
-    
-    //(2n+1)
     findLeftChildPos(pos) {
         const parentPos = 2 * pos + 1;
         return (this.heap.length > parentPos) ? parentPos : undefined;
     };
 
-    //(2n+2)
     findRightChildPos(pos) {
         const parentPos = 2 * pos + 2;
         return (this.heap.length > parentPos) ? parentPos : undefined;
@@ -82,21 +93,3 @@ class Heap {
         return this.heap;
     }
 };
-
-let h1 = new Heap();
-h1.addElement(5);
-console.log(h1.Heap);
-
-h1.addElement(1);
-h1.addElement(7);
-h1.addElement(2);
-h1.addElement(3);
-h1.addElement(10);
-h1.addElement(4);
-console.log(h1.Heap);
-
-
-h1.removeElement(1);
-
-console.log(h1.Heap);
-
