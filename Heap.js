@@ -1,3 +1,5 @@
+'use strict';
+
 class Heap {
     constructor() {
         this.heap = [];
@@ -24,29 +26,28 @@ class Heap {
         this.removeElementFromPos(0);
     }
 
-    removeElementFromPos(elementPos ) {
-        const rightMostChild = (elementPos) ? this.findRightMostChildPos(elementPos) :
-            this.findRightMostChildPos(0);
-        this.removeAndSwap(this.heap, elementPos, rightMostChild);
-        let childPos = undefined;
-        let currentPos = elementPos;
-        do {
-            let rChild = this.findRightChildPos(currentPos);
-            let lChild = this.findLeftChildPos(currentPos);
+    removeElementFromPos(elementPos) {
+        const lastChild = (this.heap.length > 0) ? this.heap.length - 1 : undefined;
+        if (lastChild != undefined) {
+            this.removeAndSwap(this.heap, elementPos, lastChild);
+            let childPos = undefined;
+            let currentPos = elementPos;
+            do {
+                let rChild = this.findRightChildPos(currentPos);
+                let lChild = this.findLeftChildPos(currentPos);
 
-            if (rChild != undefined && lChild != undefined) {
-                childPos = (this.heap[lChild] > this.heap[rChild]) ? rChild : lChild;
-            } else if (lChild != undefined) {
-                childPos = lChild;
-            } else if (rChild != undefined) {
-                childPos = rChild;
-            } else childPos = undefined;
-
-            if (childPos != undefined) {
-                this.swap(this.heap, childPos, currentPos);
-                currentPos = childPos;
-            }
-        } while (childPos != undefined);
+                if (rChild != undefined && lChild != undefined) {
+                    childPos = (this.heap[lChild] > this.heap[rChild]) ? rChild : lChild;
+                } else if (lChild != undefined) {
+                    childPos = lChild;
+                } else childPos = undefined;
+                if (childPos != undefined &&
+                    this.heap[currentPos] > this.heap[childPos]) {
+                    this.swap(this.heap, childPos, currentPos);
+                    currentPos = childPos;
+                } else childPos = undefined;
+            } while (childPos != undefined);
+        }
     }
 
     swap(array, pos1, pos2) {
@@ -72,15 +73,6 @@ class Heap {
     findRightChildPos(pos) {
         const parentPos = 2 * pos + 2;
         return (this.heap.length > parentPos) ? parentPos : undefined;
-    };
-
-    findRightMostChildPos(pos) {
-        let childPos = pos;
-        while (pos != undefined) {
-            pos = this.findRightChildPos(childPos);
-            childPos = (pos != undefined) ? pos : childPos;
-        }
-        return childPos;
     };
 
     findElementPos(element) {
