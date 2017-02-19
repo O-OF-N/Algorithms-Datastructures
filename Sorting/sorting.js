@@ -7,6 +7,25 @@ var swap = function(arr,pos1,pos2){
     return arr;
 }
 
+/* Quick Sort:
+
+To be filled */
+
+function quicksort(data) {
+    if (data.length == 0) return [];
+  
+    var left = [], right = [], pivot = data[0];
+  
+    for (var i = 1; i < data.length; i++) {
+        if(data[i] < pivot)
+            left.push(data[i])
+        else
+            right.push(data[i]);
+    }
+  
+    return quicksort(left).concat(pivot, quicksort(right));
+}
+
 /*Selection Sort:
     1) Splits the array into two portions 
         a. Sorted portion
