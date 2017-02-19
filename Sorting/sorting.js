@@ -7,6 +7,37 @@ var swap = function(arr,pos1,pos2){
     return arr;
 }
 
+/* Merge Sort: 
+To be filled */
+
+const merge = (arr1,arr2)=>{
+	const merged = [];
+	while(arr1.length || arr2.length){
+		if(arr1.length && arr2.length){
+			if(arr1[0]<arr2[0]){
+				merged.push(arr1[0]);
+				arr1.splice(0,1);
+			} else {
+				merged.push(arr2[0]);
+				arr2.splice(0,1);
+			}
+		} else if(arr1.length){
+			merged.push(...arr1);
+			arr1.splice(0)
+		} else if(arr2.length){
+			merged.push(...arr2);
+			arr2.splice(0)
+		}
+	}
+	return merged;
+};
+
+const mergeSort = (arr)=>{
+	if(arr.length < 2) return arr;
+	const mid = arr.length/2;
+	return merge(split(arr.slice(0,mid)),split(arr.slice(mid)));
+}
+
 /* Quick Sort:
 
 To be filled */
