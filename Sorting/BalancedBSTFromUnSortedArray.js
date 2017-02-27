@@ -21,8 +21,8 @@ const quickSort = (arr) =>{
 
 const constructBalancedBST = (arr)=>{
     if(arr.length<1) return null;
-    if(arr.length==1) return arr[0];
-	const mid = Math.round(arr.length/2);
+    if(arr.length==1) return new Node(arr[0],null,null);
+	const mid = Math.round((arr.length-1)/2);
 	const data = arr[mid];
 	const root = new Node(data,null,null);
 	root.left = constructBalancedBST(arr.slice(0,mid));
@@ -36,4 +36,4 @@ const balancedSearchTreeFromUnsortedArray = (arr)=>{
 	console.log(balancedBST);
 };
 
-balancedSearchTreeFromUnsortedArray([4,3,2,1]);
+balancedSearchTreeFromUnsortedArray([5,3,1,2,4]);
