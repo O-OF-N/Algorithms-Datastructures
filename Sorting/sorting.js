@@ -10,51 +10,53 @@ var swap = function(arr,pos1,pos2){
 /* Merge Sort: 
 To be filled */
 
-const merge = (arr1,arr2)=>{
-	const merged = [];
-	while(arr1.length || arr2.length){
-		if(arr1.length && arr2.length){
-			if(arr1[0]<arr2[0]){
-				merged.push(arr1[0]);
-				arr1.splice(0,1);
-			} else {
-				merged.push(arr2[0]);
-				arr2.splice(0,1);
-			}
-		} else if(arr1.length){
-			merged.push(...arr1);
-			arr1.splice(0)
-		} else if(arr2.length){
-			merged.push(...arr2);
-			arr2.splice(0)
-		}
-	}
-	return merged;
+const MergeSort = a =>{
+  if(a.length<2) return a;
+  const mid = parseInt(a.length/2);
+  const left = a.slice(0,mid);
+  const right = a.slice(mid,a.length);
+  return merge(MergeSort(left),MergeSort(right));
 };
-
-const mergeSort = (arr)=>{
-	if(arr.length < 2) return arr;
-	const mid = arr.length/2;
-	return merge(split(arr.slice(0,mid)),split(arr.slice(mid)));
+const merge = (left,right)=>{
+  const output = [];
+  while(left.length && right.length){
+    if(left[0]<right[0])
+      output.push(left.shift());
+    else
+      output.push(right.shift());
+  }
+  while(left.length)
+    output.push(left.shift());
+  while(right.length)
+    output.push(right.shift());    
+  return output;
 }
 
 /* Quick Sort:
 
 To be filled */
 
-function quicksort(data) {
-    if (data.length == 0) return [];
-  
-    var left = [], right = [], pivot = data[0];
-  
-    for (var i = 1; i < data.length; i++) {
-        if(data[i] < pivot)
-            left.push(data[i])
-        else
-            right.push(data[i]);
+const QuickSort = a =>sort(a,0,a.length-1);
+
+const sort = (a,low,high) =>{
+  if(low>=high) return a;
+  const wall = partition(a,low,high);
+  sort(a,low,wall-1);
+  sort(a,wall+1,high);
+  return a;
+}
+
+const partition = (a,low,high)=>{
+  let wall = low;
+  swap(a,low,high);
+  for(let i=low+1;i<=high;i++){
+    if(a[i]<a[wall]){
+      swap(a,i,wall);
+      swap(a,i,wall+1);
+      wall++;
     }
-  
-    return quicksort(left).concat(pivot, quicksort(right));
+  }
+  return wall;
 }
 
 /*Selection Sort:
@@ -74,20 +76,21 @@ function quicksort(data) {
                         => Since no matter what, it has to compare the current element with each and every other element 
                             in the array to find the smallest in the unsorted portion;
 */
-var selectionSort = function(arr){
-    for(let i=0;i<arr.length;i++){
-        let smallest=arr[i];
-        let smallestPos = i;
-        for(let j=i+1;j<arr.length;j++){
-            if(arr[j]<smallest){
-                smallest = arr[j];
-                smallestPos = j;
-            }          
-        }
-        arr[smallestPos] = arr[i];
-        arr[i] = smallest;
+const selectionSort = a=>{
+  let pos = 0;
+  while(pos<a.length-1){
+    let min = -1;
+    let minPos = -1;
+    for(let i=pos;i<a.length;i++){
+      if(min === -1 || a[i]<min){
+        min = a[i];
+        minPos = i;
+      }
     }
-    return arr;
+    swap(a,minPos,pos);
+    pos++;
+  }
+  return a;
 };
 
 var input = [50,40,1,20,11,6];
@@ -113,23 +116,21 @@ console.log(`selection sorted = ${selectionSort(input)}`);
        Best Case: O(n) => If the array is already sorted, it has to iterate over the array only once.
 */
 
-var insertionSort = function(arr){
-    for(let i=0;i<arr.length;i++){
-        if(arr[i]>arr[i+1]){
-            swap(arr,i,i+1);
-        }
-        let pos =i;
-        while(pos>=0){
-            if(arr[pos-1]>arr[pos]){
-                swap(arr,pos,pos-1);
-                pos--;
-            } else{
-                break;
-            }
-        }
+const insertionSort = a =>{
+  let pos =0;
+  while(pos<a.length){
+    const val = a[pos];
+    let curr = pos;
+    for(let i=pos; i>-1;i--){
+      if(val < a[i]){
+        swap(a,curr,i);
+        curr = i;
+      }
     }
-    return arr;
-};
+    pos++;
+  }
+  return a;
+}
 var input = [50,40,1,20,11,6];
 console.log(`insertion sorted = ${insertionSort(input)}`);
 
@@ -192,18 +193,18 @@ This is one of the least performing algorithms for sorting. The biggest draw bac
 that it runs one extra iteration after sorting everything because it is unaware that everything is already
 sorted.*/
 
-var bubbleSort = function(arr){
-   var swapped = true;
-   while(swapped){
-       swapped = false;
-        for(let i=0;i<arr.length;i++){
-            if(arr[i]>arr[i+1]){
-                swapped = true;
-                swap(arr,i,i+1)
-            }
-        }  
-   }
-   return arr;
+const bubbleSort = a=>{
+  let modified = true;
+  while(modified){
+    modified = false;
+    for(let i =0;i<a.length-1;i++){
+      if(a[i]>a[i+1]) {
+        swap(a,i,i+1);
+        modified = true;
+      }
+    }
+  }
+  return a;
 };
 var input = [50,40,1,20,11,6];
 console.log(`bubble sorted = ${bubbleSort(input)}`);
