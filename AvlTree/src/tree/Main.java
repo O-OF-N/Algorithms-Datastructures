@@ -1,3 +1,5 @@
+package src.tree;
+
 import tree.avl.AvlTree;
 
 /**
@@ -16,7 +18,6 @@ public class Main {
         t1.add(-2);
         t1.add(-3);
         t1.print();
-        System.out.println(">>>>>>>>>>>");
 
     }
 }
