@@ -6,6 +6,7 @@ class Solution {
   3) Then iterate from amount 1 to amount n for each and every coin.
   4) In each iteration, first set the min value to the value from the previous row but same column. For row 1, col 1, the value in this step will be Integer.MAX_VALUE. This is the minimum value we know at this stage.
   5) Calculate the possible minimum. Possible minimum is the array[current amount - current coin] + 1. If current-current coin is less than 0, then the minimum stays as the value computed in step 4.
+  NOTE: Here we take from the same row, since we are allowed to have infinite amount of coins. If we are allowed to take each coin only once, then we will look at the previous row(compare with KnappSack).
   6) The last row last column has the possible minimum value. 
   */
   public static int coinChange(int[] coins, int amount) {
