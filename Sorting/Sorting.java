@@ -62,19 +62,19 @@ class Sorting{
   // Merge sort
 
   private void mergeSort(int[] arr) {
-    partition(arr, 0, arr.length-1);
+    int[] target = new int[arr.length];
+    partition(arr, 0, arr.length-1, target);
   }
 
-  private void partition(int[] arr, int start, int end) {
+  private void partition(int[] arr, int start, int end, int[] target) {
     if(start == end) return;
     int mid = start+ (end-start)/2;
-    partition(arr, start, mid);
-    partition(arr, mid+1, end);
-    merge(arr, start, end);
+    partition(arr, start, mid, target);
+    partition(arr, mid+1, end, target);
+    merge(arr, start, end, target);
   }
 
-  private void merge(int[] arr, int start, int end) {
-    int[] target = new int[arr.length];
+  private void merge(int[] arr, int start, int end, int[] target) {
     int leftStart = start;
     int leftEnd = leftStart+ (end-start)/2;
     int rightStart = leftEnd+1;
